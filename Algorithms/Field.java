@@ -42,8 +42,8 @@ class Field {
 					vert_set.add(new Point(j + 1, i + 1));
 				}
 		vertex_vector = vert_set.toArray(new Point[vert_set.size()]);
-		for (Point p : vertex_vector) {
-			System.out.println(p.x + " " + p.y);
+		/*for (Point p : vertex_vector) {
+			System.out.println(p.x + " " + p.y);*/
 		}
 	}
 

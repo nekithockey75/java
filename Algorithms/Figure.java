@@ -14,7 +14,44 @@ class Figure {
 		for (int i = 0; i < HEIGHT; i++)
 			for (int j = 0; j < WIDTH; j++)
 				field[i][j] = (f[i][j] == 1 || f[i][j] == 2 || f[i][j] == 0 ? 0 : 1);
+		int counterOfFigures = 1;
+		for (int i = 0; i < HEIGHT; i++)
+			for (int j = 0; j < WIDTH; j++) {
+				if (field[i][j] == 1) {
+					counterOfFigures++;
+					markFigure(counterOfFigures, new Point(i, j));
+				}
+			}
+		print();
+	}
+
+	private static void markFigure(int figureNumber, Point satrtCell) {
+		field[satrtCell.x][satrtCell.y] = figureNumber;
+		if (canMark(satrtCell, LEFT)) markFigurePart(satrtCell, LEFT, figureNumber);
+		if (canMark(satrtCell, TOP)) markFigurePart(satrtCell, TOP, figureNumber);
+		if (canMark(satrtCell, RIGHT)) markFigurePart(satrtCell, RIGHT, figureNumber);
+		if (canMark(satrtCell, BOTTOM)) markFigurePart(satrtCell, BOTTOM, figureNumber);
+	}
+
+	private static boolean canMark(Point cell, int direction) {
+		switch (direction) {
+			case LEFT:
+				return (cell.x >= 0 && cell.x < HEIGHT && cell.y > 0 && cell.y < WIDTH) && (field[cell.x][cell.y-1] == 1);
+				break;
+			case TOP:
+				return (cell.x >= 0 && cell.x < HEIGHT && cell.y >= 0 && cell.y < WIDTH) && (field[cell.x-1][cell.y] == 1);
+				break;
+			case RIGHT:
+				return (cell.x > 0 && cell.x < HEIGHT && cell.y >= 0 && cell.y < WIDTH) && (field[cell.x-1][cell.y] == 1);
+				break;
+			case BOTTOM:
+				return (cell.x > 0 && cell.x < HEIGHT && cell.y >= 0 && cell.y < WIDTH) && (field[cell.x-1][cell.y] == 1);
+				break;
+			default: System.out.println("ERROR in Figure.canMark() method."); return false;
 		}
+	}
+
+	private static void markFigurePart(Point currentCell, int direction, int figureNumber) {
 
 	}
 
@@ -26,6 +63,18 @@ class Figure {
 
 	public int count() {
 		return this.pointCount;
+	}
+
+	public static void print() {
+		String ch;
+		for (int[] line : field) {	
+			for (int cell : line) {
+				if (cell == 0) ch = "░░";
+				else ch = " " + Integer.toString(cell);
+				System.out.print(ch);
+			}
+			System.out.println();
+		}
 	}
 
 	private static boolean empty(Point p, int direction) {
