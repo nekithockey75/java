@@ -40,4 +40,5 @@ class Point implements Comparable<Point> {
 			return false;
 		return true;
 	}
+	
 }
