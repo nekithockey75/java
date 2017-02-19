@@ -42,7 +42,6 @@ class Field {
 					vert_set.add(new Point(j + 1, i + 1));
 				}
 		vertex_vector = vert_set.toArray(new Point[vert_set.size()]);
-		}
 	}
 
 	public static void print() {

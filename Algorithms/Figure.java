@@ -33,20 +33,16 @@ class Figure {
 		if (canMark(satrtCell, BOTTOM)) markFigurePart(satrtCell, BOTTOM, figureNumber);
 	}
 
-	private static boolean canMark(Point cell, int direction) {
+	private static boolean canMark(Point cell, int direction) { // continue from here
 		switch (direction) {
 			case LEFT:
-				return (cell.x >= 0 && cell.x < HEIGHT && cell.y > 0 && cell.y < WIDTH) && (field[cell.x][cell.y-1] == 1);
-				break;
+				return (cell.x >= 0 && cell.x < HEIGHT && cell.y-1 >= 0 && cell.y < WIDTH) && (field[cell.x][cell.y-1] == 1);
 			case TOP:
-				return (cell.x >= 0 && cell.x < HEIGHT && cell.y >= 0 && cell.y < WIDTH) && (field[cell.x-1][cell.y] == 1);
-				break;
+				return (cell.x-1 >= 0 && cell.x < HEIGHT && cell.y >= 0 && cell.y < WIDTH) && (field[cell.x-1][cell.y] == 1);
 			case RIGHT:
-				return (cell.x > 0 && cell.x < HEIGHT && cell.y >= 0 && cell.y < WIDTH) && (field[cell.x-1][cell.y] == 1);
-				break;
+				return (cell.x >= 0 && cell.x < HEIGHT && cell.y >= 0 && cell.y+1 < WIDTH) && (field[cell.x][cell.y+1] == 1);
 			case BOTTOM:
-				return (cell.x > 0 && cell.x < HEIGHT && cell.y >= 0 && cell.y < WIDTH) && (field[cell.x-1][cell.y] == 1);
-				break;
+				return (cell.x >= 0 && cell.x+1 < HEIGHT && cell.y >= 0 && cell.y < WIDTH) && (field[cell.x+1][cell.y] == 1);
 			default: System.out.println("ERROR in Figure.canMark() method."); return false;
 		}
 	}
