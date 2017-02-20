@@ -22,7 +22,6 @@ class Figure {
 					markFigure(counterOfFigures, new Point(i, j));
 				}
 			}
-		print();
 	}
 
 	private static void markFigure(final int figureNumber, Point satrtCell) {
@@ -66,7 +65,6 @@ class Figure {
 		vertexes.add(point);
 		this.pointCount++;
 	}
-
 
 	public int count() {
 		return this.pointCount;

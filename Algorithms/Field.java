@@ -2,10 +2,11 @@ import java.util.*;
 
 class Field {
 	private static int[][] field;
-	private static int HEIGHT;
-	private static int WIDTH;
+	private static int HEIGHT, WIDTH;
 	private static Point start, finish;
 	private static Figure[] figures;
+	private static Point[] vertex_vector = {};
+	private static double[][] distance_matrix;
 
 	private static Random r = new Random();
 
@@ -27,12 +28,12 @@ class Field {
 
 		field[start.x][start.y] = 1;
 		field[finish.x][finish.y] = 2;
-		generateFigures();
+		generateVertexes();
+		generateDistMatrix();
 	}
 
-	private static void generateFigures() {
+	private static void generateVertexes() {
 		HashSet<Point> vert_set = new HashSet<>();
-		Point[] vertex_vector = {};
 		for (int i = 0; i < HEIGHT; i++)
 			for (int j = 0; j < WIDTH; j++)
 				if (field[i][j] == 3) {
@@ -41,7 +42,37 @@ class Field {
 					vert_set.add(new Point(j, i + 1));
 					vert_set.add(new Point(j + 1, i + 1));
 				}
+		/**
+			ADDING START AND FINISH INTO VERTEXES MATRIX
+		**/
+		vert_set.add(start); vert_set.add(finish);
 		vertex_vector = vert_set.toArray(new Point[vert_set.size()]);
+	}
+
+	private static void generateDistMatrix() {
+		int size = vertex_vector.length;
+		distance_matrix = new double[size][size];
+		for (int i = 0; i < size; i++)
+			for (int j = i; j < size; j++)
+				for (int k = 0; k < size; k++)
+					for (int c = 0; c < size; c++) { // continue from here
+						if (intersect(vertex_vector[i], vertex_vector[j], vertex_vector[k], vertex_vector[c])) distance_matrix[i][j] = Double.POSITIVE_INFINITY;
+						else distance_matrix[i][j] = distance(vertex_vector[i], vertex_vector[j]);
+					}
+	}
+
+	private static double distance(Point begin, Point end) {
+		return Math.sqrt(Math.pow(begin.x-end.x,2) + Math.pow(begin.y-end.y,2));
+	}
+
+	private static boolean intersect(Point begin, Point end, Point wallBegin, Point wallEnd) {
+		//write verification here
+		return false;
+	}
+
+	private static void printDistanceMatrix() {
+		for (double[] line : distance_matrix)
+			System.out.println(Arrays.toString(line));
 	}
 
 	public static void print() {
