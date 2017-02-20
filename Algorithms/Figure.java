@@ -25,15 +25,15 @@ class Figure {
 		print();
 	}
 
-	private static void markFigure(int figureNumber, Point satrtCell) {
+	private static void markFigure(final int figureNumber, Point satrtCell) {
 		field[satrtCell.x][satrtCell.y] = figureNumber;
 		if (canMark(satrtCell, LEFT)) markFigurePart(satrtCell, LEFT, figureNumber);
 		if (canMark(satrtCell, TOP)) markFigurePart(satrtCell, TOP, figureNumber);
 		if (canMark(satrtCell, RIGHT)) markFigurePart(satrtCell, RIGHT, figureNumber);
-		if (canMark(satrtCell, BOTTOM)) markFigurePart(satrtCell, BOTTOM, figureNumber);
+		if (canMark(satrtCell, BOTTOM))	markFigurePart(satrtCell, BOTTOM, figureNumber);
 	}
 
-	private static boolean canMark(Point cell, int direction) { // continue from here
+	private static boolean canMark(final Point cell, final int direction) {
 		switch (direction) {
 			case LEFT:
 				return (cell.x >= 0 && cell.x < HEIGHT && cell.y-1 >= 0 && cell.y < WIDTH) && (field[cell.x][cell.y-1] == 1);
@@ -47,8 +47,19 @@ class Figure {
 		}
 	}
 
-	private static void markFigurePart(Point currentCell, int direction, int figureNumber) {
-
+	private static void markFigurePart(Point currentCell, final int direction, final int figureNumber) { // continue from here
+		switch (direction) {
+			case LEFT: currentCell.y--; break;
+			case TOP: currentCell.x--; break;
+			case RIGHT: currentCell.y++; break;
+			case BOTTOM:  currentCell.x++; break;
+		}
+		field[currentCell.x][currentCell.y] = figureNumber;
+		if (canMark(currentCell, LEFT)) markFigurePart(currentCell, LEFT, figureNumber);
+		else if (canMark(currentCell, TOP)) markFigurePart(currentCell, TOP, figureNumber);
+		else if (canMark(currentCell, RIGHT)) markFigurePart(currentCell, RIGHT, figureNumber);
+		else if (canMark(currentCell, BOTTOM)) markFigurePart(currentCell, BOTTOM, figureNumber);
+		else return;
 	}
 
 	public void addPoint(Point point) {
