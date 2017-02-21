@@ -3,10 +3,32 @@ import java.util.*;
 class Figure {
 	public int id;
 	private int pointCount = 0;
-	public List<Point> vertexes;
+	public ArrayList<Point> vertexes;
 	private static int[][] field;
 	private static int HEIGHT, WIDTH;
 	private static final int LEFT = 0, TOP = 1, RIGHT = 2, BOTTOM = 3;
+
+	Figure(ArrayList<Point> vert_arg) { // non satic begin
+		vertexes = vert_arg;
+		System.out.println(vertexes.size());
+	}
+
+	public Point[] getVertexes() {
+		Point[] vert_array = new Point[vertexes.size()];
+		vert_array = vertexes.toArray(vert_array);
+		return vert_array;
+	}
+
+	public void addPoint(Point point) {
+		vertexes.add(point);
+		this.pointCount++;
+	}
+
+	public int count() {
+		return this.pointCount;
+	}
+	
+	// non static end
 
 	public static void setField(int[][] f) {
 		HEIGHT = f.length; WIDTH = f[0].length;
@@ -59,15 +81,6 @@ class Figure {
 		else if (canMark(currentCell, RIGHT)) markFigurePart(currentCell, RIGHT, figureNumber);
 		else if (canMark(currentCell, BOTTOM)) markFigurePart(currentCell, BOTTOM, figureNumber);
 		else return;
-	}
-
-	public void addPoint(Point point) {
-		vertexes.add(point);
-		this.pointCount++;
-	}
-
-	public int count() {
-		return this.pointCount;
 	}
 
 	public static void print() {
@@ -133,7 +146,7 @@ class Figure {
 	}
 
 	private static boolean wall(int x, int y) {
-		return field[x][y] == 3;
+		return field[x][y] != 0;
 	}
 
 }

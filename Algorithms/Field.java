@@ -75,6 +75,11 @@ class Field {
 			System.out.println(Arrays.toString(line));
 	}
 
+	private static void printVertexes() {
+		for (Point p : vertex_vector)
+			System.out.println(p.x + " " + p.y);
+	}
+
 	public static void print() {
 		String ch;
 		for (int[] line : field) {	
@@ -95,5 +100,7 @@ class Field {
 			}
 			System.out.println();
 		}
+		//printDistanceMatrix();
+		printVertexes();
 	}
 }

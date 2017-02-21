@@ -1,3 +1,5 @@
+import java.util.*;
+
 /*
 	TODO:
 	1. vertexes coordinates vector | DONE
@@ -16,6 +18,10 @@ class GeoLab {
 		Field.generate();
 		Figure.setField(field);
 		Field.print();
+		ArrayList<Point> pointsForFigure = new ArrayList<>();
+		for (int i = 0; i < 10; i++)
+			pointsForFigure.add(new Point(i, i));
+		Figure figure1 = new Figure(pointsForFigure);
 	}
 
 	private static void window() {
