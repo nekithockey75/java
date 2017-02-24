@@ -1,71 +1,33 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import javax.swing.JFrame;
 
-public class GUIGeoLab {
-	private JFrame mainFrame;
-	private JLabel headerLabel;
-	private JLabel statusLabel;
-	private JPanel controlPanel;
+ public class GUIGeoLab extends JFrame {
 
-	public GUIGeoLab() {
-		prepareGUI();
+ 	private Figure[] f;
+
+	public GUIGeoLab(Figure[] figures) {
+		super("Labyrinth");
+		setSize(1000, 1000);
+		setVisible(true);
+		f = figures;
 	}
-	private void prepareGUI(){
-		mainFrame = new JFrame("Java SWING Examples");
-		mainFrame.setSize(400,400);
-		mainFrame.setLayout(new GridLayout(3, 1));
 
-		headerLabel = new JLabel("1",JLabel.CENTER );
-		statusLabel = new JLabel("2",JLabel.CENTER);        
-		statusLabel.setSize(350,100);
-      
-		mainFrame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent windowEvent){
-				System.exit(0);
-			}        
-		});    
-		controlPanel = new JPanel();
-		controlPanel.setLayout(new FlowLayout());
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D gr2d = (Graphics2D) g;
 
-		mainFrame.add(headerLabel);
-		mainFrame.add(controlPanel);
-		mainFrame.add(statusLabel);
-		mainFrame.setVisible(true);  
-		showEventDemo();
-	}
-	private void showEventDemo(){
-		headerLabel.setText("Control in action: Button"); 
+		gr2d.setPaint(Color.MAGENTA);
+		for (Figure figure : f) {
+			Polygon j = new Polygon();
+			for (Vertex v : figure.vert_array)
+				j.addPoint(100 * v.y, 100 * v.x);
+			g.drawPolygon(j);
+		}
 
-		JButton okButton = new JButton("OK");
-		JButton submitButton = new JButton("Submit");
-		JButton cancelButton = new JButton("Cancel");
-
-		okButton.setActionCommand("OK");
-		submitButton.setActionCommand("Submit");
-		cancelButton.setActionCommand("Cancel");
-
-		okButton.addActionListener(new ButtonClickListener()); 
-		submitButton.addActionListener(new ButtonClickListener()); 
-		cancelButton.addActionListener(new ButtonClickListener()); 
-
-		controlPanel.add(okButton);
-		controlPanel.add(submitButton);
-		controlPanel.add(cancelButton);       
-
-		mainFrame.setVisible(true);  
-	}
-	private class ButtonClickListener implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-		String command = e.getActionCommand();  
-         
-			if( command.equals( "OK" ))  {
-				statusLabel.setText("Ok Button clicked.");
-			} else if( command.equals( "Submit" ) )  {
-				statusLabel.setText("Submit Button clicked."); 
-			} else {
-				statusLabel.setText("Cancel Button clicked.");
-			}  	
-		}		
+		//gr2d.clearRect(50, 40, 200, 200);
 	}
 }

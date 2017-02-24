@@ -6,8 +6,8 @@ class Point implements Comparable<Point> {
 	Point() {};
 
 	Point(int init_x, int init_y) {
-		x = init_x;
-		y = init_y;
+		x = 2 * init_x;
+		y = 2 * init_y;
 	}
 
 	@Override
