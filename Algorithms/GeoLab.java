@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.ArrayList;
 
 class GeoLab {
 	public static Vertex start = new Vertex(6, 6);
@@ -36,12 +36,13 @@ class GeoLab {
 		vertexesForFigure.clear();
 
 		Field.set(start, finish, figures);
+		Field.process();
 		Field.print();
 	}
 
 	private static void window() {
 		init();
-		GUIGeoLab wind = new GUIGeoLab(figures, start, finish);
+		GUIGeoLab window = new GUIGeoLab(figures, start, finish);
 	}
 
 	public static void main(String[] args) {

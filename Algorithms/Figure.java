@@ -8,7 +8,7 @@ class Figure {
 
 	Figure() {};
 
-	Figure(ArrayList<Vertex> vert_arg) { // non satic begin
+	Figure(ArrayList<Vertex> vert_arg) {
 		vert_array = new Vertex[vert_arg.size()];
 		vert_array = vert_arg.toArray(vert_array);
 		vertexCount = vert_arg.size();
@@ -34,6 +34,6 @@ class Figure {
 	}
 
 	public int count() {
-		return this.vertexCount;
+		return vertexCount;
 	}
 }
