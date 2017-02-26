@@ -1,6 +1,6 @@
 
 class Vertex extends Point {
-	private byte g; // = {0, 1} if {вогнутый, выпуклый}
+	public boolean g; // = {0, 1} if {вогнутый, выпуклый}
 
 	Vertex() {}
 
