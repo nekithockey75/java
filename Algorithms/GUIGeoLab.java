@@ -36,14 +36,14 @@ import javax.swing.JFrame;
 		for (Figure figure : f) {
 			Polygon j = new Polygon();
 			for (Vertex v : figure.vert_array) {
-				j.addPoint(v.y, v.x);
+				j.addPoint((int)v.y, (int)v.x);
 				//if (v.g) g.drawOval(v.y, v.x, 5, 5);
 			}
 			g.drawPolygon(j);
 		}
 
-		g.fillOval(start.x, start.y, 5, 5);
-		g.fillOval(finish.y, finish.x, 5, 5);
+		g.fillOval((int)start.x, (int)start.y, 5, 5);
+		g.fillOval((int)finish.y, (int)finish.x, 5, 5);
 
 		setSize(height, width);
 

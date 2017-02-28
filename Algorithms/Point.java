@@ -2,26 +2,26 @@ import java.util.*;
 
 class Point implements Comparable<Point> {
 
-	public int x, y;
+	public double x, y;
 	Point() {};
 
-	Point(int init_x, int init_y) {
-		x = 2 * init_x;
-		y = 2 * init_y;
+	Point(double init_x, double init_y) {
+		x = init_x;
+		y = init_y;
 	}
 
 	@Override
 	public int compareTo(Point p2) {
-		return ((Integer.compare(this.x, p2.x) != 0) &&	(Integer.compare(this.y, p2.y) != 0) ?
-				Integer.compare(this.x, p2.x) : 0);
+		return ((Double.compare(this.x, p2.x) != 0) &&	(Double.compare(this.y, p2.y) != 0) ?
+				Double.compare(this.x, p2.x) : 0);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + x;
-		result = prime * result + y;
+		result = prime * result + (int)x;
+		result = prime * result + (int)y;
 		return result;
 	}
 
@@ -40,5 +40,5 @@ class Point implements Comparable<Point> {
 			return false;
 		return true;
 	}
-	
+
 }

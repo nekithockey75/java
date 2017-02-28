@@ -6,7 +6,7 @@ class Field {
 	private static Vertex[] vertexes;
 	private static Figure[] figures;
 	private static double[][] distance_matrix;
-	private static final double EPS = 0.01;
+	private static final double EPS = 0.1;
 
 	public static void set(Vertex start_arg, Vertex finish_arg, Figure[] figures_arg) {
 		start = start_arg;
@@ -32,72 +32,94 @@ class Field {
 	}
 
 	public static void process() {
+		System.out.println("Start processing...");
 		for (int i = 0; i < vertexes.length; i++)
 			for (int j = i; j < vertexes.length; j++)
-			j:
+			j: // sides of figure, not all the vertexes
 				for (int k = 0; k < vertexes.length; k++)
 					for (int c = k; c < vertexes.length; c++) {
 						try {
-							if (can_shoot(i, j, k, c)) distance_matrix[i][j] = distance(i, j);
+							if (can_shoot(i, j, k, c))
+								distance_matrix[i][j] = distance(i, j);
 							else {
 								distance_matrix[i][j] = Double.POSITIVE_INFINITY;
 								break j; // continue j
 							}
 						} catch (Exception e) {
-							distance_matrix[i][j] = Double.POSITIVE_INFINITY;
+							distance_matrix[i][j] = 1;
 						}
 					}
 	}
 
 	private static boolean can_shoot(int from, int to, int first, int second) {
-		if (!intersect(from, to, first, second))
-			if (vertexes[from].g == true && eps_intersect(from, to)) return true;
-			else if (vertexes[from].g == false && !eps_intersect(from, to)) return true;
+		if (!intersect(from, to, first, second)) {
+			if (vertexes[from].g == true && !eps_intersect(from, to))
+				return true;
+			else if (vertexes[from].g == false && eps_intersect(from, to))
+				return true;
+		}
 		return false;
 	}
 
 	private static boolean eps_intersect(int from, int to) {
-		double alpha_x = 0, alpha_y = 0, beta_x = 0, beta_y = 0;
+		Vertex alpha, beta;
+		alpha = new Vertex(0.0, 0.0);
+		beta = new Vertex(0.0, 0.0);
+		Point delta = new Point(0, 0);
+		/**
+		ALPHA
+		**/
+		delta.x = vertexes[from].x - vertexes[from + 1].x;
+		delta.y = vertexes[from].y - vertexes[from + 1].y;
 
-		if (vertexes[from].y - vertexes[from + 1].y == 0) { // ALPHA
-			alpha_y = vertexes[from].y;
-			if (vertexes[from].x - vertexes[from + 1].x < 0)
-				alpha_x = vertexes[from].x + EPS;
+		if (delta.y == 0) { // delta y = 0
+			alpha.y = vertexes[from].y;
+			if (delta.x < 0) // delta x < 0
+				alpha.x = vertexes[from].x + EPS;
+			else // delta x  > 0
+				alpha.x = vertexes[from].x - EPS;
+		} else if (delta.x == 0) {
+			alpha.x = vertexes[from].x;
+			if (delta.y < 0)
+				alpha.y = vertexes[from].y + EPS;
 			else
-				alpha_x = vertexes[from].x - EPS;
+				alpha.y = vertexes[from].y - EPS;
 		}
-		else if (vertexes[from].x - vertexes[from + 1].y == 0) {
-			alpha_x = vertexes[from].x;
-			if (vertexes[from].y - vertexes[from + 1].y < 0)
-				alpha_y = vertexes[from].y + EPS;
+		/**
+		BETA
+		**/
+		delta.x = vertexes[from].x - vertexes[from - 1].x;
+		delta.y = vertexes[from].y - vertexes[from - 1].y;
+
+		if (delta.y == 0) { // BETA
+			beta.y = vertexes[from].y;
+			if (delta.x < 0)
+				beta.x = vertexes[from].x + EPS;
 			else
-				alpha_y = vertexes[from].y - EPS;
+				beta.x = vertexes[from].x - EPS;
+		} else if (delta.x == 0) {
+			beta.x = vertexes[from].x;
+			if (delta.y < 0)
+				beta.y = vertexes[from].y + EPS;
+			else
+				beta.y = vertexes[from].y - EPS;
 		}
 
-		if (vertexes[from].y - vertexes[from - 1].y == 0) { // BETA
-			beta_y = vertexes[from].y;
-			if (vertexes[from].x - vertexes[from - 1].x < 0)
-				beta_x = vertexes[from].x + EPS;
-			else
-				beta_x = vertexes[from].x - EPS;
-		}
-		else if (vertexes[from].x - vertexes[from - 1].y == 0) {
-			beta_x = vertexes[from].x;
-			if (vertexes[from].y - vertexes[from - 1].y < 0)
-				beta_y = vertexes[from].y + EPS;
-			else
-				beta_y = vertexes[from].y - EPS;
-		}
+		System.out.println("BETA = ( " + beta.x + " , " + beta.y + " )  ALPHA = ( " + alpha.x + " , " + alpha.y + " )");
 
 		Vector v1, v2, v3;
 		v1 = new Vector(vertexes[from], vertexes[to]);
-		v2 = new Vector(vertexes[from], new Vertex(alpha_x, alpha_y));
-		v3 = new Vector(vertexes[from], new Vertex(beta_x, beta_y));
-		return Math.signum(v1.multiply(v2)) != Math.signum(v1.multiply(v3));
+		v2 = new Vector(vertexes[from], alpha);
+		v3 = new Vector(vertexes[from], beta);
+
+		boolean r = Math.signum(v1.multiply(v2)) != Math.signum(v1.multiply(v3));
+		System.out.println(r);
+
+		return r;
 
 	}
 
-	private static boolean intersect(int from, int to, int first, int second) {
+	private static boolean intersect(int from, int to, int first, int second) { //
 		Vector v1, v2, v3;
 		v1 = new Vector(vertexes[from], vertexes[to]);
 		v2 = new Vector(vertexes[from], vertexes[first]);
@@ -105,12 +127,12 @@ class Field {
 		return Math.signum(v1.multiply(v2)) != Math.signum(v1.multiply(v3));
 	}
 
-	private static double distance(int i, int j) {
+	private static double distance(int i, int j) { // works
 		Vector v = new Vector(vertexes[i], vertexes[j]);
 		return v.length();
 	}
 
-	public static void print() {
+	public static void print() { // works
 		for (Vertex vertex : vertexes)
 			System.out.print(vertex.x + " " + vertex.y + " " + vertex.g + "\n");
 		for (double[] line : distance_matrix) {
