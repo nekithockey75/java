@@ -3,6 +3,7 @@ import java.util.*;
 class Figure {
 	private int vertexCount = 0;
 	public Vertex[] vert_array;
+	public Vector[] sides;
 	private static int HEIGHT, WIDTH;
 	private static final int LEFT = 0, TOP = 1, RIGHT = 2, BOTTOM = 3;
 
@@ -12,6 +13,7 @@ class Figure {
 		vert_array = new Vertex[vert_arg.size()];
 		vert_array = vert_arg.toArray(vert_array);
 		vertexCount = vert_arg.size();
+		sides = new Vector[vertexCount];
 
 		Vector v1 = new Vector(vert_array[0], vert_array[1]);
 		Vector v2 = new Vector(vert_array[0], vert_array[vertexCount - 1]);
@@ -26,7 +28,9 @@ class Figure {
 			v2 = new Vector(vert_array[i], vert_array[i - 1]);
 			vert_array[i].g = (v1.multiply(v2) > 0 ? false : true);
 		}
-
+		for (int i = 0; i < vertexCount - 1; i++)
+			sides[i] = new Vector(vert_array[i], vert_array[i + 1]);
+		sides[vertexCount - 1] = new Vector(vert_array[vertexCount - 1], vert_array[0]);
 	}
 
 	public Vertex[] getVertexes() {
