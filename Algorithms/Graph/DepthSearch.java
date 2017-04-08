@@ -1,12 +1,8 @@
 public class DepthSearch implements Search, Path {
-    /*private Graph G;
-    private int v;*/
     private boolean[] marked;
     private int count;
 
     DepthSearch(Graph G, int v) {
-        /*this.G = G;
-        this.v = v;*/
         marked = new boolean[G.V()];
         dfs(G, v);
     }
@@ -22,13 +18,4 @@ public class DepthSearch implements Search, Path {
     public int count() {
         return count;
     }
-    public boolean hasPathTo(int v) {
-        return false;
-    }
-    public Iterable<Integer> pathTo(int v) {
-        return null;
-    }
-    /*public setVertex(int v) {
-        this.v = v;
-    }*/
 }
