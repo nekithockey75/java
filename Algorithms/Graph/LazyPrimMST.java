@@ -1,6 +1,6 @@
 public class LazyPrimMST implements IMST {
-    private boolean[] marked;
-    private Queue<Edge> mst;
+    private boolean[] marked; // vertexes in tree
+    private Queue<Edge> mst; // edges in tree
     private MinPQ<Edge> pq;
 
     public LazyPrimMST(EdgeWeightedGraph G) {
@@ -29,7 +29,9 @@ public class LazyPrimMST implements IMST {
     }
     public Iterable<Edge> edges() { return mst; }
     public double weight() {
-        // TODO : реализовать
-        return 0;
+        double summaryWeight = 0;
+        for (Edge e : mst)
+            summaryWeight += e.weight();
+        return summaryWeight;
     }
 }
